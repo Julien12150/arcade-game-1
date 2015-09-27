@@ -1,19 +1,24 @@
 package com.pl3x.arcade.main;
 
-import javax.swing.*;
+import java.awt.Canvas;
 
-public class Main {
-
+public class Main extends Canvas implements Runnable{
+	
+	private static final long serialVersionUID = 6230533464412165714L;
+	
+	public Main(){
+		new Windows(750, 500, "Arcade Game", this); //TODO: change the title
+	}
+	
+	public synchronized void start(){
+		
+	}
+	
+	public void run(){
+		
+	}
+	
 	public static void main(String[] args) {
-		
-		int HEIGHT = 1020;
-		int WIDTH = 720;
-		
-		JFrame frame = new JFrame("An arcade game");          //The title TODO: make it to the real title name
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //what happen when you click the close button
-		
-		frame.setResizable(false);                            //it's resizable?
-		
-		frame.setVisible(true);                               //now let show it!
+		new Main();
 	}
 }
