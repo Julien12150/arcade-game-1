@@ -5,6 +5,7 @@ import java.awt.image.BufferStrategy;
 
 import com.pl3x.arcade.entities.*;
 import com.pl3x.arcade.entities.list.*;
+import com.pl3x.arcade.hud.*;
 
 public class Main extends Canvas implements Runnable{
 	
@@ -12,6 +13,7 @@ public class Main extends Canvas implements Runnable{
 	
 	public static final int WIDTH = 750;  //the screen resolution
 	public static final int HEIGHT = 500;
+	public static final int HUD = 50;
 	
 	public static String name = "Arcade game"; //TODO: change the title
 	
@@ -19,16 +21,21 @@ public class Main extends Canvas implements Runnable{
 	private boolean isRunning = false; //it's running? nah, very logic inside a program
 	
 	private Handler handler;
+	private HUD hud;
 	
 	public Main(){
 		handler = new Handler(); //the handler is a new Handler :O
 		this.addKeyListener(new KeyInput(handler)); //it's will listen to keys NOTE: it's seem to not work in mac
 		
-		new Windows(WIDTH, HEIGHT, name, this); //it's make a new Windows
+		new Windows(WIDTH, HEIGHT + HUD, name, this); //it's make a new Windows
 		
+		hud = new HUD();
 		
-		handler.addObject(new Player(WIDTH/2-32, HEIGHT/2-32, ID.Player)); //it's will spawn a player in the middle of the screen
-		
+		handler.addObject(new Player(WIDTH/2-16, HEIGHT/2-16, ID.Player)); //it's will spawn a player in the middle of the screen
+		handler.addObject(new Enemy(WIDTH/2-8, HEIGHT/2-8, ID.Enemy, 5, 5));
+		handler.addObject(new Enemy(WIDTH/2-8, HEIGHT/2-8, ID.Enemy, -5, 5));
+		handler.addObject(new Enemy(WIDTH/2-8, HEIGHT/2-8, ID.Enemy, 5, -5));
+		handler.addObject(new Enemy(WIDTH/2-8, HEIGHT/2-8, ID.Enemy, -5, -5));
 	}
 	
 	public synchronized void start(){ //when it's start
@@ -47,6 +54,7 @@ public class Main extends Canvas implements Runnable{
 	}
 	
 	public void run(){ //many things about fps stuff
+		this.requestFocus();
 		long lastTime = System.nanoTime();
 		double amountOfTicks = 60.0;
 		double ns = 1000000000 / amountOfTicks;
@@ -76,6 +84,7 @@ public class Main extends Canvas implements Runnable{
 	
 	private void tick(){
 		handler.tick();
+		hud.tick();
 	}
 	
 	private void render(){
@@ -91,6 +100,8 @@ public class Main extends Canvas implements Runnable{
 		g.fillRect(0,  0, WIDTH, HEIGHT);//and it's do the size of the screen
 		
 		handler.render(g);
+		
+		hud.render(g);
 		
 		g.dispose();
 		bs.show();
