@@ -31,7 +31,7 @@ public class Main extends Canvas implements Runnable{
 		
 		hud = new HUD();
 		
-		handler.addObject(new Player(WIDTH/2-16, HEIGHT/2-16, ID.Player)); //it's will spawn a player in the middle of the screen
+		handler.addObject(new Player(WIDTH/2-50, HEIGHT/2-16, ID.Player, handler)); //it's will spawn a player in the middle of the screen
 		handler.addObject(new Enemy(WIDTH/2-8, HEIGHT/2-8, ID.Enemy, 5, 5));
 		handler.addObject(new Enemy(WIDTH/2-8, HEIGHT/2-8, ID.Enemy, -5, 5));
 		handler.addObject(new Enemy(WIDTH/2-8, HEIGHT/2-8, ID.Enemy, 5, -5));

@@ -27,4 +27,8 @@ public class Enemy extends GameObject {
 		g.fillRect(x, y, 16, 16);
 	}
 
+	public Rectangle getBounds() {
+		return new Rectangle(x, y, 16, 16);
+	}
+
 }
