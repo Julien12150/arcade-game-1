@@ -17,7 +17,7 @@ public abstract class GameObject {
 	public abstract void tick();
 	public abstract void render(Graphics g);
 	
-	public void setX(int x){
+	public void setX(int x){ //some commands...
 		this.x = x;
 	}
 	public void setY(int y){

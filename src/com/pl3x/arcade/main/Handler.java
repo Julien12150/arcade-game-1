@@ -13,7 +13,7 @@ public class Handler {
 		for(int i = 0; i < object.size(); i++){
 			GameObject tempObject = object.get(i);
 			
-			tempObject.tick();
+			tempObject.tick(); //tick stuff
 		}
 	}
 	
@@ -21,16 +21,16 @@ public class Handler {
 		for(int i = 0; i < object.size(); i++){
 			GameObject tempObject = object.get(i);
 			
-			tempObject.render(g);
+			tempObject.render(g); //render stuff
 		}
 	}
 	
 	public void addObject(GameObject object){
-		this.object.add(object);
+		this.object.add(object); //it's will add an object with "addObject"
 	}
 	
 	public void removeObject(GameObject object){
-		this.object.remove(object);
+		this.object.remove(object); //same but will remove it
 	}
 	
 }

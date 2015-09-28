@@ -2,6 +2,7 @@ package com.pl3x.arcade.main;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
+import java.util.Random;
 
 import com.pl3x.arcade.entities.*;
 import com.pl3x.arcade.entities.list.*;
@@ -18,21 +19,27 @@ public class Main extends Canvas implements Runnable{
 	private Thread thread;
 	private boolean isRunning = false;
 	
+	private Random r;
 	private Handler handler;
 	
 	public Main(){
+		handler = new Handler(); //the handler is a new Handler :O
+		this.addKeyListener(new KeyInput(handler));
+		
 		new Windows(WIDTH, HEIGHT, name, this); //it's make a new Windows
 		
-		handler = new Handler(); //the handler is a new Handler :O
+		r = new Random(); //r = random number
 		
-		handler.addObject(new Player(100, 100, ID.Player));
+		
+		handler.addObject(new Player(WIDTH/2-32, HEIGHT/2-32, ID.Player)); //it's will spawn a player in the middle of the screen
+		
 	}
 	
 	public synchronized void start(){ //when it's start
 		thread = new Thread(this);
 		thread.start();
 		isRunning = true;
-		System.out.println("Started");
+		System.out.println("Started"); //it's write "started" in the console
 	}
 	public synchronized void stop(){
 		try{
@@ -64,7 +71,7 @@ public class Main extends Canvas implements Runnable{
 			
 			if(System.currentTimeMillis() - timer > 1000){
 				timer += 1000;
-				System.out.println("FPS: " + frames);
+				System.out.println("FPS: " + frames); //will say "fps: <fps>" every seconds
 				frames = 0;
 			}
 		}
@@ -84,8 +91,8 @@ public class Main extends Canvas implements Runnable{
 		
 		Graphics g = bs.getDrawGraphics();
 		
-		g.setColor(Color.black);
-		g.fillRect(0,  0, WIDTH, HEIGHT);
+		g.setColor(Color.black);         //the background will be black
+		g.fillRect(0,  0, WIDTH, HEIGHT);//and it's do the size of the screen
 		
 		handler.render(g);
 		
