@@ -2,6 +2,7 @@ package com.pl3x.arcade.main;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
+import java.util.Random;
 
 import com.pl3x.arcade.entities.*;
 import com.pl3x.arcade.entities.list.*;
@@ -20,8 +21,10 @@ public class Main extends Canvas implements Runnable{
 	private Thread thread;
 	private boolean isRunning = false; //it's running? nah, very logic inside a program
 	
+	private Random r;
 	private Handler handler;
 	private HUD hud;
+	private Spawn spawner;
 	
 	public Main(){
 		handler = new Handler(); //the handler is a new Handler :O
@@ -30,12 +33,15 @@ public class Main extends Canvas implements Runnable{
 		new Windows(WIDTH, HEIGHT + HUD, name, this); //it's make a new Windows
 		
 		hud = new HUD();
+		spawner = new Spawn(handler);
+		r = new Random();
 		
-		handler.addObject(new Player(WIDTH/2-50, HEIGHT/2-16, ID.Player, handler)); //it's will spawn a player in the middle of the screen
-		handler.addObject(new Enemy(WIDTH/2-8, HEIGHT/2-8, ID.Enemy, 5, 5));
-		handler.addObject(new Enemy(WIDTH/2-8, HEIGHT/2-8, ID.Enemy, -5, 5));
-		handler.addObject(new Enemy(WIDTH/2-8, HEIGHT/2-8, ID.Enemy, 5, -5));
-		handler.addObject(new Enemy(WIDTH/2-8, HEIGHT/2-8, ID.Enemy, -5, -5));
+		handler.addObject(new Player(r.nextInt(WIDTH - 32), r.nextInt(HEIGHT - 32), ID.Player, handler)); //it's will spawn a player in the middle of the screen
+		handler.addObject(new Enemy(r.nextInt(WIDTH - 16), r.nextInt(HEIGHT - 16), ID.Enemy, 5, 5));
+		handler.addObject(new Enemy(r.nextInt(WIDTH - 16), r.nextInt(HEIGHT - 16), ID.Enemy, -5, 5));
+		handler.addObject(new Enemy(r.nextInt(WIDTH - 16), r.nextInt(HEIGHT - 16), ID.Enemy, 5, -5));
+		handler.addObject(new Enemy(r.nextInt(WIDTH - 16), r.nextInt(HEIGHT - 16), ID.Enemy, -5, -5));
+		handler.addObject(new Coin(r.nextInt(WIDTH - 16), r.nextInt(HEIGHT - 16), ID.Coin, handler));
 	}
 	
 	public synchronized void start(){ //when it's start
@@ -84,6 +90,7 @@ public class Main extends Canvas implements Runnable{
 	
 	private void tick(){
 		handler.tick();
+		spawner.tick();
 		hud.tick();
 	}
 	
@@ -100,7 +107,6 @@ public class Main extends Canvas implements Runnable{
 		g.fillRect(0,  0, WIDTH, HEIGHT);//and it's do the size of the screen
 		
 		handler.render(g);
-		
 		hud.render(g);
 		
 		g.dispose();

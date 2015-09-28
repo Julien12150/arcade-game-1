@@ -1,6 +1,7 @@
 package com.pl3x.arcade.entities;
 
 import java.awt.Graphics;
+import java.awt.Rectangle;
 
 public abstract class GameObject {
 	
@@ -8,14 +9,15 @@ public abstract class GameObject {
 	protected ID id;
 	protected int velX, velY;
 	
-	public GameObject(int x, int y, ID id){
-		this.x = x;
-		this.y = y;
-		this.id = id;
+	public GameObject(int x, int y, ID id){ //when an object spawn, theres an
+		this.x = x;  //x position properties
+		this.y = y;  //y position properties
+		this.id = id;//id properties
 	}
 	
 	public abstract void tick();
 	public abstract void render(Graphics g);
+	public abstract Rectangle getBounds();
 	
 	public void setX(int x){ //some commands...
 		this.x = x;

@@ -7,6 +7,7 @@ import com.pl3x.arcade.main.*;
 public class HUD {
 	
 	public static int HEALTH = 100;
+	public static int COIN;
 	
 	public void tick(){
 		//HEALTH--; //always drown the healt (DEBUG USE ONLY)
@@ -27,6 +28,10 @@ public class HUD {
 		if(HEALTH > 50)g.setColor(Color.black);
 		if(HEALTH < 50)g.setColor(Color.white);
 		g.drawString("" + HEALTH, 4 + (200) / 2 - 5, 500);
+		g.setColor(Color.yellow);
+		g.fillRect(208, Main.HEIGHT - (Main.HUD / 2) + 4, 16, 16);
+		g.setColor(Color.yellow);
+		g.drawString("" + COIN, 4 + (208), 510);
 	}
 	
 }

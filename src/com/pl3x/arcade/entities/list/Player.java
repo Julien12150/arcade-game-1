@@ -31,15 +31,25 @@ public class Player extends GameObject{
 		if(y > (Main.HEIGHT - 60))y = Main.HEIGHT - 60;
 		
 		collision();
+		
+		if(HUD.HEALTH <= 0){
+			handler.removeObject(this);
+		}
 	}
 	
 	private void collision(){
 		for(int i = 0; i < handler.object.size(); i++){
 			GameObject tempObject = handler.object.get(i);
 			
-			if(tempObject.getId() == ID.Enemy){ //when the player colide with the enemy 
-				if(getBounds().intersects(tempObject.getBounds())){
-					HUD.HEALTH -= 1; //the player lose health
+			if(tempObject.getId() == ID.Enemy){ 
+				if(getBounds().intersects(tempObject.getBounds())){ //when the player collide with the enemy
+					HUD.HEALTH--; //the player lose health
+				}
+			}
+			if(tempObject.getId() == ID.Coin){ 
+				if(getBounds().intersects(tempObject.getBounds())){ //when the player collide with a coin
+					HUD.COIN++; //the player get a coin
+					HUD.HEALTH += 5;
 				}
 			}
 		}
