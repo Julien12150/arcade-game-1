@@ -4,6 +4,7 @@ import java.awt.*;
 import java.util.Random;
 
 import com.pl3x.arcade.entities.*;
+import com.pl3x.arcade.main.Main;
 
 public class Player extends GameObject{
 
@@ -17,6 +18,14 @@ public class Player extends GameObject{
 	public void tick() {
 		x += velX;
 		y += velY;
+		
+		if(x < 0)x = 0; //if the player's position is less than 0, it's will go to 0
+		
+		if(x > (Main.WIDTH - 38))x = Main.WIDTH - 38; //same thing...
+		
+		if(y < 0)y = 0;
+		
+		if(y > (Main.HEIGHT - 60))y = Main.HEIGHT - 60;
 	}
 
 	public void render(Graphics g) {

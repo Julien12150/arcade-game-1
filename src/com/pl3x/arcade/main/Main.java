@@ -2,33 +2,29 @@ package com.pl3x.arcade.main;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
-import java.util.Random;
 
 import com.pl3x.arcade.entities.*;
 import com.pl3x.arcade.entities.list.*;
 
 public class Main extends Canvas implements Runnable{
 	
-	private static final long serialVersionUID = 6230533464412165714L;
+	private static final long serialVersionUID = 6230533464412165714L; //random number
 	
-	public static final int WIDTH = 750;
+	public static final int WIDTH = 750;  //the screen resolution
 	public static final int HEIGHT = 500;
 	
 	public static String name = "Arcade game"; //TODO: change the title
 	
 	private Thread thread;
-	private boolean isRunning = false;
+	private boolean isRunning = false; //it's running? nah, very logic inside a program
 	
-	private Random r;
 	private Handler handler;
 	
 	public Main(){
 		handler = new Handler(); //the handler is a new Handler :O
-		this.addKeyListener(new KeyInput(handler));
+		this.addKeyListener(new KeyInput(handler)); //it's will listen to keys NOTE: it's seem to not work in mac
 		
 		new Windows(WIDTH, HEIGHT, name, this); //it's make a new Windows
-		
-		r = new Random(); //r = random number
 		
 		
 		handler.addObject(new Player(WIDTH/2-32, HEIGHT/2-32, ID.Player)); //it's will spawn a player in the middle of the screen
@@ -38,13 +34,13 @@ public class Main extends Canvas implements Runnable{
 	public synchronized void start(){ //when it's start
 		thread = new Thread(this);
 		thread.start();
-		isRunning = true;
+		isRunning = true; //when it's start, it's will run
 		System.out.println("Started"); //it's write "started" in the console
 	}
 	public synchronized void stop(){
 		try{
 			thread.join();
-			isRunning = false;
+			isRunning = false; //when it's stop, it's stop running
 		}catch(Exception e){
 			e.printStackTrace();
 		}
