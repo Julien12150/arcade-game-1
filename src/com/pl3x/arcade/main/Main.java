@@ -3,6 +3,9 @@ package com.pl3x.arcade.main;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 
+import com.pl3x.arcade.entities.*;
+import com.pl3x.arcade.entities.list.*;
+
 public class Main extends Canvas implements Runnable{
 	
 	private static final long serialVersionUID = 6230533464412165714L;
@@ -15,8 +18,14 @@ public class Main extends Canvas implements Runnable{
 	private Thread thread;
 	private boolean isRunning = false;
 	
+	private Handler handler;
+	
 	public Main(){
 		new Windows(WIDTH, HEIGHT, name, this); //it's make a new Windows
+		
+		handler = new Handler(); //the handler is a new Handler :O
+		
+		handler.addObject(new Player(100, 100, ID.Player));
 	}
 	
 	public synchronized void start(){ //when it's start
@@ -63,7 +72,7 @@ public class Main extends Canvas implements Runnable{
 	}
 	
 	private void tick(){
-		
+		handler.tick();
 	}
 	
 	private void render(){
@@ -77,6 +86,8 @@ public class Main extends Canvas implements Runnable{
 		
 		g.setColor(Color.black);
 		g.fillRect(0,  0, WIDTH, HEIGHT);
+		
+		handler.render(g);
 		
 		g.dispose();
 		bs.show();
