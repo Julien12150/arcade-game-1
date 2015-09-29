@@ -22,7 +22,7 @@ public class Coin extends GameObject {
 		for(int i = 0; i < handler.object.size(); i++){
 			GameObject tempObject = handler.object.get(i);
 			
-			if(tempObject.getId() == ID.Player){ 
+			if(tempObject.getId() == ID.Player || tempObject.getId() == ID.Player2){ 
 				if(getBounds().intersects(tempObject.getBounds())){ //when the coin collide with the player
 					handler.removeObject(this);
 				}

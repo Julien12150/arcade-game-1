@@ -31,7 +31,7 @@ public class Enemy extends GameObject {
 		for(int i = 0; i < handler.object.size(); i++){
 			GameObject tempObject = handler.object.get(i);
 			
-			if(tempObject.getId() == ID.Player){ 
+			if(tempObject.getId() == ID.Player || tempObject.getId() == ID.Player2){ 
 				if(getBounds().intersects(tempObject.getBounds())){ //when the enemy collide with another enemy
 					velX *= -1;
 					velY *= -1;

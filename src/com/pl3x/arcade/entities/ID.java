@@ -4,6 +4,7 @@ public enum ID {
 	//id of entities
 	Player(), //player
 	Enemy(),  //enemies
-	Coin();//coins
+	Coin(),//coins
+	Player2();//player 2
 	
 }
