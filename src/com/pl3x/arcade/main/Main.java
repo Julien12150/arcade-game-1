@@ -37,10 +37,10 @@ public class Main extends Canvas implements Runnable{
 		r = new Random();
 		
 		handler.addObject(new Player(r.nextInt(WIDTH - 32), r.nextInt(HEIGHT - 32), ID.Player, handler)); //it's will spawn a player in the middle of the screen
-		handler.addObject(new Enemy(r.nextInt(WIDTH - 16), r.nextInt(HEIGHT - 16), ID.Enemy, 5, 5));
-		handler.addObject(new Enemy(r.nextInt(WIDTH - 16), r.nextInt(HEIGHT - 16), ID.Enemy, -5, 5));
-		handler.addObject(new Enemy(r.nextInt(WIDTH - 16), r.nextInt(HEIGHT - 16), ID.Enemy, 5, -5));
-		handler.addObject(new Enemy(r.nextInt(WIDTH - 16), r.nextInt(HEIGHT - 16), ID.Enemy, -5, -5));
+		handler.addObject(new Enemy(r.nextInt(WIDTH - 16), r.nextInt(HEIGHT - 16), ID.Enemy, 5, 5, handler));
+		handler.addObject(new Enemy(r.nextInt(WIDTH - 16), r.nextInt(HEIGHT - 16), ID.Enemy, -5, 5, handler));
+		handler.addObject(new Enemy(r.nextInt(WIDTH - 16), r.nextInt(HEIGHT - 16), ID.Enemy, 5, -5, handler));
+		handler.addObject(new Enemy(r.nextInt(WIDTH - 16), r.nextInt(HEIGHT - 16), ID.Enemy, -5, -5, handler));
 		handler.addObject(new Coin(r.nextInt(WIDTH - 16), r.nextInt(HEIGHT - 16), ID.Coin, handler));
 	}
 	

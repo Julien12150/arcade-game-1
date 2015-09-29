@@ -43,7 +43,7 @@ public class Player extends GameObject{
 			
 			if(tempObject.getId() == ID.Enemy){ 
 				if(getBounds().intersects(tempObject.getBounds())){ //when the player collide with the enemy
-					HUD.HEALTH--; //the player lose health
+					HUD.HEALTH -= 3; //the player lose health
 				}
 			}
 			if(tempObject.getId() == ID.Coin){ 
@@ -57,8 +57,6 @@ public class Player extends GameObject{
 	
 	public void render(Graphics g) {
 		
-		Graphics2D g2d = (Graphics2D) g;
-		
 		g.setColor(Color.white);  //the color is white
 		g.fillRect(x, y, 32, 32); //the size is 32x32 and appear in x and y
 	}
@@ -66,5 +64,4 @@ public class Player extends GameObject{
 	public Rectangle getBounds() {
 		return new Rectangle(x, y, 32, 32);
 	}
-
 }
