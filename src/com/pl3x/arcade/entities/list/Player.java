@@ -33,6 +33,10 @@ public class Player extends GameObject{
 		collision();
 		
 		if(HUD.HEALTH <= 0){
+			handler.addObject(new PlayerPart(x, y, -5, -5, ID.Decoration, 1));
+			handler.addObject(new PlayerPart(x + 16, y, 5, -5, ID.Decoration, 1));
+			handler.addObject(new PlayerPart(x + 16, y + 16, 5, 5, ID.Decoration, 1));
+			handler.addObject(new PlayerPart(x, y + 16, -5, 5, ID.Decoration, 1));
 			handler.removeObject(this);
 		}
 	}

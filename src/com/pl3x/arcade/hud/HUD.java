@@ -37,7 +37,7 @@ public class HUD {
 		g.drawString("" + HEALTH, 4 + (200) / 2 - 5, 500);
 		g.setColor(Color.yellow);
 		g.fillRect(208, Main.HEIGHT - (Main.HUD / 2) + 4, 16, 16);
-		g.setColor(Color.yellow);
+		g.setColor(Color.black);
 		g.drawString("" + COIN, 4 + (208), 510);
 	}
 	
