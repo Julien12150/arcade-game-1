@@ -11,6 +11,7 @@ import com.pl3x.arcade.main.Main;
 public class Player extends GameObject{
 
 	Random r = new Random();
+	
 	Handler handler;
 	
 	public Player(int x, int y, ID id, Handler handler) {
@@ -33,10 +34,19 @@ public class Player extends GameObject{
 		collision();
 		
 		if(HUD.HEALTH <= 0){
+			int coin = HUD.COIN;
+			
+			System.out.println("Player one died with " + coin + " coins.");
+			
+			for(int i=0; i < coin; i++){
+				handler.addObject(new Coin(x + 8, y + 8, ID.Coin, handler, r.nextInt(10) - 5, r.nextInt(10) - 5));
+			}
+			
 			handler.addObject(new PlayerPart(x, y, -5, -5, ID.Decoration, 1));
 			handler.addObject(new PlayerPart(x + 16, y, 5, -5, ID.Decoration, 1));
 			handler.addObject(new PlayerPart(x + 16, y + 16, 5, 5, ID.Decoration, 1));
 			handler.addObject(new PlayerPart(x, y + 16, -5, 5, ID.Decoration, 1));
+			
 			handler.removeObject(this);
 		}
 	}
@@ -60,7 +70,6 @@ public class Player extends GameObject{
 	}
 	
 	public void render(Graphics g) {
-		
 		g.setColor(Color.white);  //the color is white
 		g.fillRect(x, y, 32, 32); //the size is 32x32 and appear in x and y
 	}
@@ -68,4 +77,5 @@ public class Player extends GameObject{
 	public Rectangle getBounds() {
 		return new Rectangle(x, y, 32, 32);
 	}
+		
 }

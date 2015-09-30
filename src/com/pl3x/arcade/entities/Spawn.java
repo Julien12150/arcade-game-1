@@ -24,7 +24,7 @@ public class Spawn {
 		time++;
 		if(time >= 200){
 			time = 0;
-			handler.addObject(new Coin(r.nextInt(Main.WIDTH - 16), r.nextInt(Main.HEIGHT - 16), ID.Coin, handler));
+			handler.addObject(new Coin(r.nextInt(Main.WIDTH - 16), r.nextInt(Main.HEIGHT - 16), ID.Coin, handler, 0, 0));
 		}
 	}
 	
