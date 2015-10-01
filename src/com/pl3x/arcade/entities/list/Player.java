@@ -11,12 +11,14 @@ import com.pl3x.arcade.main.Main;
 public class Player extends GameObject{
 
 	Random r = new Random();
-	
 	Handler handler;
+	public static int Direction;
 	
-	public Player(int x, int y, ID id, Handler handler) {
+	@SuppressWarnings("static-access")
+	public Player(int x, int y, ID id, Handler handler, int Direction) {
 		super(x, y, id);
 		this.handler = handler;
+		this.Direction = Direction;
 	}
 
 	public void tick() {
@@ -39,13 +41,13 @@ public class Player extends GameObject{
 			System.out.println("Player one died with " + coin + " coins.");
 			
 			for(int i=0; i < coin; i++){
-				handler.addObject(new Coin(x + 8, y + 8, ID.Coin, handler, r.nextInt(10) - 5, r.nextInt(10) - 5));
+				handler.addObject(new Coin(x + 8, y + 8, ID.CoinNoHealth, handler, r.nextInt(10) - 5 + this.velX, r.nextInt(10) - 5 + this.velY));
 			}
 			
-			handler.addObject(new PlayerPart(x, y, -5, -5, ID.Decoration, 1));
-			handler.addObject(new PlayerPart(x + 16, y, 5, -5, ID.Decoration, 1));
-			handler.addObject(new PlayerPart(x + 16, y + 16, 5, 5, ID.Decoration, 1));
-			handler.addObject(new PlayerPart(x, y + 16, -5, 5, ID.Decoration, 1));
+			handler.addObject(new PlayerPart(x, y, -5 + this.velX, -5 + this.velY, ID.Decoration, 1));
+			handler.addObject(new PlayerPart(x + 16, y, 5 + this.velX, -5 + this.velY, ID.Decoration, 1));
+			handler.addObject(new PlayerPart(x + 16, y + 16, 5 + this.velX, 5 + this.velY, ID.Decoration, 1));
+			handler.addObject(new PlayerPart(x, y + 16, -5 + this.velX, 5 + this.velY, ID.Decoration, 1));
 			
 			handler.removeObject(this);
 		}
@@ -66,6 +68,11 @@ public class Player extends GameObject{
 					HUD.HEALTH += 5;
 				}
 			}
+			if(tempObject.getId() == ID.CoinNoHealth){ 
+				if(getBounds().intersects(tempObject.getBounds())){ //when the player collide with a coin
+					HUD.COIN++; //the player get a coin
+				}
+			}
 		}
 	}
 	
@@ -77,5 +84,4 @@ public class Player extends GameObject{
 	public Rectangle getBounds() {
 		return new Rectangle(x, y, 32, 32);
 	}
-		
 }

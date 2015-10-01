@@ -6,6 +6,7 @@ public enum ID {
 	Player2(), //player 2
 	Enemy(),  //enemies
 	Coin(),//coins
+	CoinNoHealth(),
 	Decoration();
 	
 }

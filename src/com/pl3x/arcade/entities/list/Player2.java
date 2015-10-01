@@ -12,10 +12,13 @@ public class Player2 extends GameObject{
 
 	Random r = new Random();
 	Handler handler;
+	public static int Direction;
 	
-	public Player2(int x, int y, ID id, Handler handler) {
+	@SuppressWarnings("static-access")
+	public Player2(int x, int y, ID id, Handler handler, int Direction) {
 		super(x, y, id);
 		this.handler = handler;
+		this.Direction = Direction;
 	}
 
 	public void tick() {
@@ -38,13 +41,13 @@ public class Player2 extends GameObject{
 			System.out.println("Player two died with " + coin + " coins.");
 			
 			for(int i=0; i < coin; i++){
-				handler.addObject(new Coin(x + 8, y + 8, ID.Coin, handler, r.nextInt(10) - 5, r.nextInt(10) - 5));
+				handler.addObject(new Coin(x + 8, y + 8, ID.CoinNoHealth, handler, r.nextInt(10) - 5, r.nextInt(10) - 5));
 			}
 			
-			handler.addObject(new PlayerPart(x, y, -5, -5, ID.Decoration, 2));
-			handler.addObject(new PlayerPart(x + 16, y, 5, -5, ID.Decoration, 2));
-			handler.addObject(new PlayerPart(x + 16, y + 16, 5, 5, ID.Decoration, 2));
-			handler.addObject(new PlayerPart(x, y + 16, -5, 5, ID.Decoration, 2));
+			handler.addObject(new PlayerPart(x, y, -5 + this.velX, -5 + this.velY, ID.Decoration, 2));
+			handler.addObject(new PlayerPart(x + 16, y, 5 + this.velX, -5 + this.velY, ID.Decoration, 2));
+			handler.addObject(new PlayerPart(x + 16, y + 16, 5 + this.velX, 5 + this.velY, ID.Decoration, 2));
+			handler.addObject(new PlayerPart(x, y + 16, -5 + this.velX, 5 + this.velY, ID.Decoration, 2));
 			
 			handler.removeObject(this);
 		}
@@ -63,6 +66,11 @@ public class Player2 extends GameObject{
 				if(getBounds().intersects(tempObject.getBounds())){ //when the player collide with a coin
 					HUD.COIN2++; //the player get a coin
 					HUD.HEALTH2 += 5;
+				}
+			}
+			if(tempObject.getId() == ID.CoinNoHealth){ 
+				if(getBounds().intersects(tempObject.getBounds())){ //when the player collide with a coin
+					HUD.COIN2++; //the player get a coin
 				}
 			}
 		}

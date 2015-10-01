@@ -36,7 +36,7 @@ public class Main extends Canvas implements Runnable{
 		spawner = new Spawn(handler);
 		r = new Random();
 		
-		handler.addObject(new Player(r.nextInt(WIDTH - 32), r.nextInt(HEIGHT - 32), ID.Player, handler)); //it's will spawn a player in the middle of the screen
+		handler.addObject(new Player(r.nextInt(WIDTH - 32), r.nextInt(HEIGHT - 32), ID.Player, handler, 0)); //it's will spawn a player in the middle of the screen
 		handler.addObject(new Enemy(r.nextInt(WIDTH - 16), r.nextInt(HEIGHT - 16), ID.Enemy, 5, 5, handler));
 		handler.addObject(new Enemy(r.nextInt(WIDTH - 16), r.nextInt(HEIGHT - 16), ID.Enemy, -5, 5, handler));
 		handler.addObject(new Enemy(r.nextInt(WIDTH - 16), r.nextInt(HEIGHT - 16), ID.Enemy, 5, -5, handler));
@@ -79,9 +79,10 @@ public class Main extends Canvas implements Runnable{
 				render();
 			frames++;
 			
+			
 			if(System.currentTimeMillis() - timer > 1000){
 				timer += 1000;
-				System.out.println("FPS: " + frames); //will say "fps: <fps>" every seconds
+				Info.fps = frames;
 				frames = 0;
 			}
 		}
@@ -89,6 +90,7 @@ public class Main extends Canvas implements Runnable{
 	}
 	
 	private void tick(){
+		
 		handler.tick();
 		spawner.tick();
 		hud.tick();
@@ -107,7 +109,7 @@ public class Main extends Canvas implements Runnable{
 		g.fillRect(0,  0, WIDTH, HEIGHT);//and it's do the size of the screen
 		
 		handler.render(g);
-		hud.render(g);
+		hud.render(g, handler);
 		
 		g.dispose();
 		bs.show();
