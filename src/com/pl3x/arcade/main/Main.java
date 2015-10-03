@@ -16,6 +16,10 @@ public class Main extends Canvas implements Runnable{
 	public static final int HEIGHT = 500;
 	public static final int HUD = 50;
 	
+	// FPS limitation.
+	private static final int MAX_FPS = 60;
+	private static final int MIN_NANOSECONDS_BETWEEN_2_FRAMES  = 1000000000 / MAX_FPS;
+	
 	public static String name = "Arcade game"; //TODO: change the title
 	
 	private Thread thread;
@@ -61,39 +65,44 @@ public class Main extends Canvas implements Runnable{
 	
 	public void run(){ //many things about fps stuff
 		this.requestFocus();
-		long lastTime = System.nanoTime();
-		double amountOfTicks = 60.0;
-		double ns = 1000000000 / amountOfTicks;
-		double delta = 0;
-		long timer = System.currentTimeMillis();
-		int frames = 0;
+	
+		// Limit to MAX_FPS
+		long lastFrameTime = System.nanoTime();
+		long nextFrameTime = lastFrameTime;
+		long now;
+		
+		// Count FPS.
+		int  frames = 0;
+		long nextCountFramesTime = lastFrameTime + 1000000000;
+
 		while(isRunning){
-			long now = System.nanoTime();
-			delta += (now - lastTime) / ns;
-			lastTime = now;
-			while(delta >= 1){
-				tick();
-				delta--;
+			
+			// Limit to MAX_FPS FPS.
+			do {
+				
+				now = System.nanoTime();
 			}
-			if(isRunning)
-				render();
+			while (now < nextFrameTime);
+			nextFrameTime = now + MIN_NANOSECONDS_BETWEEN_2_FRAMES;
+			
+			// Count FPS.
 			frames++;
-			
-			
-			if(System.currentTimeMillis() - timer > 1000){
-				timer += 1000;
+			if (now > nextCountFramesTime) {
 				Info.fps = frames;
 				frames = 0;
+				nextCountFramesTime = now + 1000000000;
 			}
+			
+			tick();
+			render();
 		}
 		stop();
 	}
 	
 	private void tick(){
-		
-		handler.tick();
-		spawner.tick();
-		hud.tick();
+		 handler.tick();
+		 spawner.tick();
+	 	 hud.tick();
 	}
 	
 	private void render(){
