@@ -2,26 +2,40 @@ package com.pl3x.arcade.hud;
 
 import java.awt.*;
 
-import com.pl3x.arcade.entities.*;
+import com.pl3x.arcade.entities.list.Player;
 import com.pl3x.arcade.main.*;
 
 public class Info {
 	public static int fps;
 	
-	public static void render(Graphics g, Handler handler){
+	public static void render(Graphics g, Player playerLeft, Player playerRight)
+	{
+		int y = 12;
 		g.setColor(Color.white);
-		g.drawString("COIN: " + HUD.COIN + " | " + HUD.COIN2, 0, 10);
-		g.drawString("HEALTH: " + HUD.HEALTH + " | " + HUD.HEALTH2, 0, 22);
-		g.drawString("E: " + handler.object.size(), 0, 34);
-		g.drawString("fps: " + fps, 0, 46);
-		for(int i = 0; i < handler.object.size(); i++){
-			GameObject tempObject = handler.object.get(i);
-			if(tempObject.getId() == ID.Player){
-				g.drawString("1C: " + tempObject.getX() + " " + tempObject.getY() + " | " + tempObject.getVelX() + " " + tempObject.getVelY(), 0, 58);
-			}
-			if(tempObject.getId() == ID.Player2){
-				g.drawString("2C: " + tempObject.getX() + " " + tempObject.getY() + " | " + tempObject.getVelX() + " " + tempObject.getVelY(), 0, 70);
-			}
+		g.drawString("E: " + Main.handler.object.size(), 0, y);
+		g.drawString("fps: " + fps, 0, y + 12);
+
+		if (playerLeft == null)
+		{
+			g.drawString("No player left", 0, y + 24);
+			y = y + 36;
+		}
+		else
+		{
+			g.drawString("Player left COINS: " + playerLeft.getCoins(), 0, y + 24);
+			g.drawString("Player left HEALTH: " + playerLeft.getHealth(), 0, y + 36);
+			g.drawString("LC: " + playerLeft.getX() + " " + playerLeft.getY() + " | " + playerLeft.getVelX() + " " + playerLeft.getVelY(), 0, y + 48);
+			y = y + 60;
+		}
+
+		if (playerRight == null)
+		{
+			g.drawString("No player right", 0, y);
+		}
+		else {
+			g.drawString("Player right COINS: " + playerLeft.getCoins(), 0, y);
+			g.drawString("Player right HEALTH: " + playerLeft.getHealth(), 0, y + 12);
+			g.drawString("RC: " + playerLeft.getX() + " " + playerLeft.getY() + " | " + playerLeft.getVelX() + " " + playerLeft.getVelY(), 0, y + 24);
 		}
 	}
 }

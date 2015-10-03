@@ -9,11 +9,11 @@ public class Handler {
 	
 	public LinkedList<GameObject> object = new LinkedList<GameObject>();
 	
-	public void tick(){
+	public void tick(long deltaNano){
 		for(int i = 0; i < object.size(); i++){
 			GameObject tempObject = object.get(i);
 			
-			tempObject.tick(); //tick stuff
+			tempObject.tick(deltaNano); //tick stuff
 		}
 	}
 	
@@ -26,11 +26,11 @@ public class Handler {
 	}
 	
 	public void addObject(GameObject object){
-		this.object.add(object); //it's will add an object with "addObject"
+		if (this.object.size() < 500)
+			this.object.add(object); //it's will add an object with "addObject"
 	}
 	
 	public void removeObject(GameObject object){
 		this.object.remove(object); //same but will remove it
 	}
-	
 }

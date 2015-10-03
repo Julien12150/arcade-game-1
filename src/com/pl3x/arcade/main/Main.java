@@ -4,17 +4,23 @@ import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.util.Random;
 
+// import com.pl3x.arcade.entities.ID;
 import com.pl3x.arcade.entities.*;
 import com.pl3x.arcade.entities.list.*;
 import com.pl3x.arcade.hud.*;
 
-public class Main extends Canvas implements Runnable{
-	
+public class Main extends Canvas implements Runnable
+{
 	private static final long serialVersionUID = 6230533464412165714L; //random number
+
+	public static Handler handler;
+	public static HUD hud;
+	public static Windows window;
+	public static Random random;
 	
 	public static final int WIDTH = 750;  //the screen resolution
-	public static final int HEIGHT = 500;
-	public static final int HUD = 50;
+	public static int HEIGHT = 500;
+	public static final int HUD_HEIGHT = 50;
 	
 	// FPS limitation.
 	private static final int MAX_FPS = 60;
@@ -25,27 +31,34 @@ public class Main extends Canvas implements Runnable{
 	private Thread thread;
 	private boolean isRunning = false; //it's running? nah, very logic inside a program
 	
-	private Random r;
-	private Handler handler;
-	private HUD hud;
+	//private Random r;
+	
+	
 	private Spawn spawner;
 	
 	public Main(){
-		handler = new Handler(); //the handler is a new Handler :O
-		this.addKeyListener(new KeyInput(handler)); //it's will listen to keys NOTE: it's seem to not work in mac
+		Main.handler = new Handler();
+		Main.hud = new HUD();
+		Main.random = new Random();
 		
-		new Windows(WIDTH, HEIGHT + HUD, name, this); //it's make a new Windows
+		this.addKeyListener(new KeyInput(Main.handler)); //it's will listen to keys NOTE: it's seem to not work in mac
 		
-		hud = new HUD();
-		spawner = new Spawn(handler);
-		r = new Random();
+		Main.window = new Windows(WIDTH, Main.HEIGHT + Main.HUD_HEIGHT, name, this); //it's make a new Windows
+		Dimension r = Main.window.frame.getContentPane().getSize();	// Get real frame size (without borders)
+		Main.HEIGHT = r.height - Main.HUD_HEIGHT;
 		
-		handler.addObject(new Player(r.nextInt(WIDTH - 32), r.nextInt(HEIGHT - 32), ID.Player, handler, 0)); //it's will spawn a player in the middle of the screen
-		handler.addObject(new Enemy(r.nextInt(WIDTH - 16), r.nextInt(HEIGHT - 16), ID.Enemy, 5, 5, handler));
-		handler.addObject(new Enemy(r.nextInt(WIDTH - 16), r.nextInt(HEIGHT - 16), ID.Enemy, -5, 5, handler));
-		handler.addObject(new Enemy(r.nextInt(WIDTH - 16), r.nextInt(HEIGHT - 16), ID.Enemy, 5, -5, handler));
-		handler.addObject(new Enemy(r.nextInt(WIDTH - 16), r.nextInt(HEIGHT - 16), ID.Enemy, -5, -5, handler));
-		handler.addObject(new Coin(r.nextInt(WIDTH - 16), r.nextInt(HEIGHT - 16), ID.Coin, handler, 0, 0));
+		this.spawner = new Spawn();
+		
+		// Spawn 4 enemy and 4 coins
+		for (int i=0 ; i < 4 ; i++)
+		{
+			new Enemy(Main.random.nextFloat(), Main.random.nextFloat(), Main.random.nextFloat() / 2, Main.random.nextFloat() / 2);
+			new GameObject(Main.random.nextFloat(), Main.random.nextFloat(), 0, 0, 0, ID.Coin, Color.yellow, 16, 16);
+ 		}
+		
+		// Spawn left player in the middle of the screen.
+		Player playerLeft = new Player(0.5f, 0.5f);
+		Main.hud.setPlayerLeft(playerLeft);
 	}
 	
 	public synchronized void start(){ //when it's start
@@ -54,6 +67,7 @@ public class Main extends Canvas implements Runnable{
 		isRunning = true; //when it's start, it's will run
 		System.out.println("Started"); //it's write "started" in the console
 	}
+	
 	public synchronized void stop(){
 		try{
 			thread.join();
@@ -63,7 +77,8 @@ public class Main extends Canvas implements Runnable{
 		}
 	}
 	
-	public void run(){ //many things about fps stuff
+	public void run()
+	{
 		this.requestFocus();
 	
 		// Limit to MAX_FPS
@@ -79,7 +94,6 @@ public class Main extends Canvas implements Runnable{
 			
 			// Limit to MAX_FPS FPS.
 			do {
-				
 				now = System.nanoTime();
 			}
 			while (now < nextFrameTime);
@@ -93,18 +107,17 @@ public class Main extends Canvas implements Runnable{
 				nextCountFramesTime = now + 1000000000;
 			}
 			
-			tick();
+			long deltaNano = now - lastFrameTime;
+			Main.handler.tick(deltaNano);
+			this.spawner.tick(deltaNano);
+			lastFrameTime = now;
+			
 			render();
 		}
+
 		stop();
 	}
-	
-	private void tick(){
-		 handler.tick();
-		 spawner.tick();
-	 	 hud.tick();
-	}
-	
+
 	private void render(){
 		BufferStrategy bs = this.getBufferStrategy();
 		if(bs == null){
@@ -115,11 +128,11 @@ public class Main extends Canvas implements Runnable{
 		Graphics g = bs.getDrawGraphics();
 		
 		g.setColor(Color.black);         //the background will be black
-		g.fillRect(0,  0, WIDTH, HEIGHT);//and it's do the size of the screen
+		g.fillRect(0, 0, Main.WIDTH, Main.HEIGHT + Main.HUD_HEIGHT);//and it's do the size of the screen
 		
-		handler.render(g);
-		hud.render(g, handler);
-		
+		Main.handler.render(g);
+		Main.hud.render(g);
+
 		g.dispose();
 		bs.show();
 	}

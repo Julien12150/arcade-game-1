@@ -3,8 +3,6 @@ package com.pl3x.arcade.main;
 import java.awt.event.*;
 
 import com.pl3x.arcade.entities.*;
-import com.pl3x.arcade.entities.list.*;
-import com.pl3x.arcade.hud.HUD;
 
 public class KeyInput extends KeyAdapter{
 	
@@ -17,12 +15,21 @@ public class KeyInput extends KeyAdapter{
 		this.handler = handler;
 	}
 	
-	public void keyPressed(KeyEvent e){
+	public void keyPressed(KeyEvent e) {
 		int key = e.getKeyCode();
+		
+		if (key == KeyEvent.VK_F3)
+		{
+			Main.hud.setIsInfoShowed(! Main.hud.getIsInfoShowed());
+			return;
+		}
 		
 		for(int i = 0; i < handler.object.size(); i++){
 			GameObject tempObject = handler.object.get(i);
 			
+			tempObject.keyPressed(e);
+			
+			/*
 			if(tempObject.getId() == ID.Player){
 				if(key == KeyEvent.VK_W || key == KeyEvent.VK_Z){tempObject.setVelY(-5); //pressing w or z will go up
 					Player.Direction = 0;
@@ -91,12 +98,12 @@ public class KeyInput extends KeyAdapter{
 					canDropCoinBeUsed2 = false;
 				}
 			}
+			*/
 		}
-		
-		if(key == KeyEvent.VK_F3) HUD.isInfoShowed = !HUD.isInfoShowed;
 	}
 	
 	public void keyReleased(KeyEvent e){
+		/*
 		int key = e.getKeyCode();
 		
 		for(int i = 0; i < handler.object.size(); i++){
@@ -119,5 +126,6 @@ public class KeyInput extends KeyAdapter{
 				if(key == KeyEvent.VK_SHIFT) canDropCoinBeUsed2 = true;
 			}
 		}
+		*/
 	}
 }
