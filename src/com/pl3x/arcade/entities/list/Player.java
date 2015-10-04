@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import com.pl3x.arcade.entities.*;
 import com.pl3x.arcade.main.Main;
+import com.pl3x.arcade.main.Sound;
 
 public abstract class Player extends GameObject{
 
@@ -17,8 +18,8 @@ public abstract class Player extends GameObject{
 		super(x, y, 0, 0, 0.5f, id, Color.white, 32, 32);
 		
 		this.setMaxHealth(100);
-		this.setHealth(this.getMaxHealth() / 10);
-		this.setCoins(10);
+		this.setHealth(this.getMaxHealth());
+		this.setCoins(0);
 	}
 	
 	// Collision with GameObjects
@@ -34,16 +35,28 @@ public abstract class Player extends GameObject{
 				this.setHealth(this.getHealth() - 3);
 				object.setVelX(-object.getVelX());
 				object.setVelY(-object.getVelY());
+				try {
+					new Sound("hit");
+				} catch (Exception e) {
+				}
 				break;
 				
 			case Coin:
 				this.setHealth(this.getHealth() + 5);
 				this.setCoins(this.getCoins() + 1);
+				try {
+					new Sound("coin");
+				} catch (Exception e) {
+				}
 				object.die();
 				break;
 				
 			case CoinNoHealth:
 				this.setCoins(this.getCoins() + 1);
+				try {
+					new Sound("coin");
+				} catch (Exception e) {
+				}
 				object.die();
 				break;
 

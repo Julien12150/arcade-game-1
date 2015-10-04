@@ -25,22 +25,47 @@ public class Player2 extends Player{
 		{
 		case KeyEvent.VK_UP:
 			// Go up
-			this.setVelY( this.getVelY() - (this.getVelMax() / 10));
+			this.setVelY( this.getVelY() - (this.getVelMax()));
 			break;
 			
 		case KeyEvent.VK_DOWN:
 			// Go down
-			this.setVelY( this.getVelY() + (this.getVelMax() / 10));
+			this.setVelY( this.getVelY() + (this.getVelMax()));
 			break;
 			
 		case KeyEvent.VK_RIGHT:
 			// Go right
-			this.setVelX( this.getVelX() + (this.getVelMax() / 10));
+			this.setVelX( this.getVelX() + (this.getVelMax()));
 			break;
 			
 		case KeyEvent.VK_LEFT:
 			// Go left
-			this.setVelX( this.getVelX() - (this.getVelMax() / 10));
+			this.setVelX( this.getVelX() - (this.getVelMax()));
+			break;
+		}
+	}
+	public void keyReleased(KeyEvent e){
+		int key = e.getKeyCode();
+		switch(key)
+		{
+		case KeyEvent.VK_UP:
+			// Go up
+			this.setVelY(0);
+			break;
+			
+		case KeyEvent.VK_DOWN:
+			// Go down
+			this.setVelY(0);
+			break;
+			
+		case KeyEvent.VK_RIGHT:
+			// Go right
+			this.setVelX(0);
+			break;
+			
+		case KeyEvent.VK_LEFT:
+			// Go left
+			this.setVelX(0);
 			break;
 		}
 	}

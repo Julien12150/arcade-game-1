@@ -102,7 +102,13 @@ public class KeyInput extends KeyAdapter{
 		}
 	}
 	
+	@SuppressWarnings("unused")
 	public void keyReleased(KeyEvent e){
+		int key = e.getKeyCode();
+		for(int i = 0; i < handler.object.size(); i++){
+			GameObject tempObject = handler.object.get(i);
+		
+			tempObject.keyReleased(e);
 		/*
 		int key = e.getKeyCode();
 		
@@ -122,10 +128,11 @@ public class KeyInput extends KeyAdapter{
 				if(key == KeyEvent.VK_DOWN) tempObject.setVelY(0);
 				if(key == KeyEvent.VK_RIGHT) tempObject.setVelX(0);
 				if(key == KeyEvent.VK_LEFT || key == KeyEvent.VK_Q) tempObject.setVelX(0);
-				
+					
 				if(key == KeyEvent.VK_SHIFT) canDropCoinBeUsed2 = true;
 			}
 		}
-		*/
+		 */
+		}
 	}
 }

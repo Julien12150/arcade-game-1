@@ -229,4 +229,7 @@ public class GameObject {
 		this.halfSizeYFloat = this.getSizeY() / (float) (2 * (Main.HEIGHT));
 		this.halfSizeYPixel = this.getSizeY() / 2;
 	}
+
+	public void keyReleased(KeyEvent e) {
+	}
 }
