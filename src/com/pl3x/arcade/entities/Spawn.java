@@ -1,9 +1,7 @@
 package com.pl3x.arcade.entities;
 
-import java.awt.Color;
-
+import com.pl3x.arcade.entities.list.Coin;
 import com.pl3x.arcade.main.Main;
-
 
 public class Spawn {
 
@@ -22,7 +20,7 @@ public class Spawn {
 		if (this.deltaCoin > this.coinDuration)
 		{
 			this.deltaCoin -= this.coinDuration;
-			new GameObject(Main.random.nextFloat(), Main.random.nextFloat(), 0, 0, 0, ID.Coin, Color.yellow, 16, 16);
+			new Coin(Main.random.nextFloat(), Main.random.nextFloat());
 		}
 	}	
 }

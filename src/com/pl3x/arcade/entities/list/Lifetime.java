@@ -1,4 +1,4 @@
-package com.pl3x.arcade.entities;
+package com.pl3x.arcade.entities.list;
 
 import java.awt.Color;
 
@@ -18,7 +18,7 @@ public class Lifetime extends GameObject{
 
 	// Tick: reduce lifetime
 	public void tick(long deltaNano) {
-		tick(deltaNano);
+		super.tick(deltaNano);
 		
 		this.setLifetime(this.getLifetime() - deltaNano);
 	}
@@ -26,7 +26,7 @@ public class Lifetime extends GameObject{
 	// Getters
 	public long getLifetime()
 	{
-		return this.getLifetime();
+		return this.lifetime;
 	}
 	
 	// Setters

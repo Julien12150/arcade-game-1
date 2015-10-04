@@ -9,14 +9,14 @@ import com.pl3x.arcade.entities.*;
 import com.pl3x.arcade.entities.list.*;
 import com.pl3x.arcade.hud.*;
 
-public class Main extends Canvas implements Runnable
+public class Main implements Runnable
 {
-	private static final long serialVersionUID = 6230533464412165714L; //random number
-
 	public static Handler handler;
 	public static HUD hud;
 	public static Windows window;
 	public static Random random;
+	public static Player player1;
+	public static Player player2;
 	
 	public static final int WIDTH = 750;  //the screen resolution
 	public static int HEIGHT = 500;
@@ -36,16 +36,17 @@ public class Main extends Canvas implements Runnable
 	
 	private Spawn spawner;
 	
-	public Main(){
+	public Main(boolean twoPlayer)
+	{
 		Main.handler = new Handler();
 		Main.hud = new HUD();
 		Main.random = new Random();
 		
-		this.addKeyListener(new KeyInput(Main.handler)); //it's will listen to keys NOTE: it's seem to not work in mac
-		
-		Main.window = new Windows(WIDTH, Main.HEIGHT + Main.HUD_HEIGHT, name, this); //it's make a new Windows
+		// Main window
+		Main.window = new Windows(WIDTH, Main.HEIGHT + Main.HUD_HEIGHT, name); //it's make a new Windows
 		Dimension r = Main.window.frame.getContentPane().getSize();	// Get real frame size (without borders)
-		Main.HEIGHT = r.height - Main.HUD_HEIGHT;
+		Main.HEIGHT = r.height - Main.HUD_HEIGHT; // Update real height (without borders)
+		Main.window.addKeyListener(new KeyInput(Main.handler));  //it's will listen to keys NOTE: it's seem to not work in mac
 		
 		this.spawner = new Spawn();
 		
@@ -53,19 +54,29 @@ public class Main extends Canvas implements Runnable
 		for (int i=0 ; i < 4 ; i++)
 		{
 			new Enemy(Main.random.nextFloat(), Main.random.nextFloat(), Main.random.nextFloat() / 2, Main.random.nextFloat() / 2);
-			new GameObject(Main.random.nextFloat(), Main.random.nextFloat(), 0, 0, 0, ID.Coin, Color.yellow, 16, 16);
+			new Coin(Main.random.nextFloat(), Main.random.nextFloat());
  		}
 		
-		// Spawn left player in the middle of the screen.
-		Player playerLeft = new Player(0.5f, 0.5f);
-		Main.hud.setPlayerLeft(playerLeft);
+		if (twoPlayer)
+		{
+			Main.player1  = new Player1(1f / 3, 0.5f);
+			Main.player2  = new Player2(2f / 3, 0.5f);
+		}
+		else
+		{
+			// Spawn player1 in the middle of the screen.
+			Main.player1 = new Player1(0.5f, 0.5f);
+			Main.player2 = null;
+		}
+		
+		this.start();
 	}
 	
 	public synchronized void start(){ //when it's start
 		thread = new Thread(this);
 		thread.start();
 		isRunning = true; //when it's start, it's will run
-		System.out.println("Started"); //it's write "started" in the console
+		System.out.println("Enjoy !");
 	}
 	
 	public synchronized void stop(){
@@ -79,7 +90,7 @@ public class Main extends Canvas implements Runnable
 	
 	public void run()
 	{
-		this.requestFocus();
+		Main.window.requestFocus();
 	
 		// Limit to MAX_FPS
 		long lastFrameTime = System.nanoTime();
@@ -119,9 +130,9 @@ public class Main extends Canvas implements Runnable
 	}
 
 	private void render(){
-		BufferStrategy bs = this.getBufferStrategy();
+		BufferStrategy bs = Main.window.getBufferStrategy();
 		if(bs == null){
-			this.createBufferStrategy(3);
+			Main.window.createBufferStrategy(3);
 			return;
 		}
 		
@@ -135,9 +146,5 @@ public class Main extends Canvas implements Runnable
 
 		g.dispose();
 		bs.show();
-	}
-	
-	public static void main(String[] args) {
-		new Main(); //what happen when the program start? it's make a new "Main"
 	}
 }

@@ -1,54 +1,24 @@
 package com.pl3x.arcade.entities.list;
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import com.pl3x.arcade.entities.*;
+import com.pl3x.arcade.main.Main;
 
-public class Player extends GameObject{
+public abstract class Player extends GameObject{
 
 	private int max_health;	// Max life points
 	private int health;		// Life points
 	private int coins;		// Count of coins earned
 	
 	// Constructor
-	public Player(float x, float y) {
-		super(x, y, 0, 0, 0.5f, ID.Player, Color.white, 32, 32);
+	public Player(float x, float y, ID id) {
+		super(x, y, 0, 0, 0.5f, id, Color.white, 32, 32);
 		
 		this.setMaxHealth(100);
-		this.setHealth(this.getMaxHealth());
-		this.setCoins(0);
-	}
-	
-	// key: move player
-	public void keyPressed(KeyEvent e) {
-		int key = e.getKeyCode();
-
-		switch(key)
-		{
-		case KeyEvent.VK_W:
-		case KeyEvent.VK_Z:
-			// Go up
-			this.setVelY( this.getVelY() - (this.getVelMax() / 10));
-			break;
-			
-		case KeyEvent.VK_S:
-			// Go down
-			this.setVelY( this.getVelY() + (this.getVelMax() / 10));
-			break;
-			
-		case KeyEvent.VK_D:
-			// Go right
-			this.setVelX( this.getVelX() + (this.getVelMax() / 10));
-			break;
-			
-		case KeyEvent.VK_A:
-		case KeyEvent.VK_Q:
-			// Go left
-			this.setVelX( this.getVelX() - (this.getVelMax() / 10));
-			break;
-		}
+		this.setHealth(this.getMaxHealth() / 10);
+		this.setCoins(10);
 	}
 	
 	// Collision with GameObjects
@@ -85,12 +55,21 @@ public class Player extends GameObject{
 	// Make the player die
 	public void die()
 	{	
-		System.out.println("Player one died with " + this.getCoins() + " coins.");
-		
-		for(int i=0 ; i < this.getCoins() ; i++){
-			// handler.addObject(new Coin(x + 8, y + 8, ID.CoinNoHealth, handler, r.nextInt(10) - 5 + this.velX, r.nextInt(10) - 5 + this.velY));
+		// Release coins
+		for(int i=0 ; i < this.getCoins() ; i++)
+		{
+			new Coin(this.getX(), this.getY(), (this.getVelX() + Main.random.nextFloat() - 0.5f) * Main.random.nextFloat(), (this.getVelY() + Main.random.nextFloat() - 0.5f) * Main.random.nextFloat());
 		}
 		
+		// Player explode in 8 pieces
+		new Lifetime(this.getX(), this.getY(), this.getVelX() - 0.2f, this.getVelY(), this.getColor(), 16, 16, 3000000000l + 5000000000l * (long) Main.random.nextFloat());
+		new Lifetime(this.getX(), this.getY(), this.getVelX() + 0.2f, this.getVelY(), this.getColor(), 16, 16, 3000000000l + 5000000000l * (long) Main.random.nextFloat());
+		new Lifetime(this.getX(), this.getY(), this.getVelX(), this.getVelY() + 0.2f, this.getColor(), 16, 16, 3000000000l + 5000000000l * (long) Main.random.nextFloat());
+		new Lifetime(this.getX(), this.getY(), this.getVelX(), this.getVelY() - 0.2f, this.getColor(), 16, 16, 3000000000l + 5000000000l * (long) Main.random.nextFloat());
+		new Lifetime(this.getX(), this.getY(), this.getVelX() - 0.2f, this.getVelY() - 0.2f, this.getColor(), 16, 16, 3000000000l + 5000000000l * (long) Main.random.nextFloat());
+		new Lifetime(this.getX(), this.getY(), this.getVelX() + 0.2f, this.getVelY() - 0.2f, this.getColor(), 16, 16, 3000000000l + 5000000000l * (long) Main.random.nextFloat());
+		new Lifetime(this.getX(), this.getY(), this.getVelX() - 0.2f, this.getVelY() + 0.2f, this.getColor(), 16, 16, 3000000000l + 5000000000l * (long) Main.random.nextFloat());
+		new Lifetime(this.getX(), this.getY(), this.getVelX() + 0.2f, this.getVelY() + 0.2f, this.getColor(), 16, 16, 3000000000l + 5000000000l * (long) Main.random.nextFloat());
 		/*
 		handler.addObject(new PlayerPart(x, y, -5 + this.velX, -5 + this.velY, ID.Decoration, 1));
 		handler.addObject(new PlayerPart(x + 16, y, 5 + this.velX, -5 + this.velY, ID.Decoration, 1));
