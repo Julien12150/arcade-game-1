@@ -2,6 +2,7 @@ package com.pl3x.arcade.main;
 
 import java.awt.event.*;
 
+import com.pl3x.arcade.Main;
 import com.pl3x.arcade.entities.*;
 
 public class KeyInput extends KeyAdapter{

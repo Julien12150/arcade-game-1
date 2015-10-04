@@ -3,8 +3,8 @@ package com.pl3x.arcade.entities.list;
 import java.awt.*;
 import java.util.ArrayList;
 
+import com.pl3x.arcade.Main;
 import com.pl3x.arcade.entities.*;
-import com.pl3x.arcade.main.Main;
 import com.pl3x.arcade.main.Sound;
 
 public abstract class Player extends GameObject{

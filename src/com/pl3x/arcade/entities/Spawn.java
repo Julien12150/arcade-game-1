@@ -1,7 +1,7 @@
 package com.pl3x.arcade.entities;
 
+import com.pl3x.arcade.Main;
 import com.pl3x.arcade.entities.list.Coin;
-import com.pl3x.arcade.main.Main;
 
 public class Spawn {
 

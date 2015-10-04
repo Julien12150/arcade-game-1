@@ -1,13 +1,19 @@
-package com.pl3x.arcade.main;
+package com.pl3x.arcade;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.util.Random;
 
+
+
 // import com.pl3x.arcade.entities.ID;
 import com.pl3x.arcade.entities.*;
 import com.pl3x.arcade.entities.list.*;
 import com.pl3x.arcade.hud.*;
+import com.pl3x.arcade.level.LevelClassic;
+import com.pl3x.arcade.main.Handler;
+import com.pl3x.arcade.main.KeyInput;
+import com.pl3x.arcade.main.Windows;
 
 public class Main implements Runnable
 {
@@ -50,24 +56,7 @@ public class Main implements Runnable
 		
 		this.spawner = new Spawn();
 		
-		// Spawn 4 enemy and 4 coins
-		for (int i=0 ; i < 4 ; i++)
-		{
-			new Enemy(Main.random.nextFloat(), Main.random.nextFloat(), Main.random.nextFloat() / 2, Main.random.nextFloat() / 2);
-			new Coin(Main.random.nextFloat(), Main.random.nextFloat());
- 		}
-		
-		if (twoPlayer)
-		{
-			Main.player1  = new Player1(1f / 3, 0.5f);
-			Main.player2  = new Player2(2f / 3, 0.5f);
-		}
-		else
-		{
-			// Spawn player1 in the middle of the screen.
-			Main.player1 = new Player1(0.5f, 0.5f);
-			Main.player2 = null;
-		}
+		new LevelClassic(twoPlayer);
 		
 		this.start();
 	}

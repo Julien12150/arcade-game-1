@@ -1,4 +1,4 @@
-package com.pl3x.arcade.main;
+package com.pl3x.arcade;
 
 import java.awt.Canvas;
 

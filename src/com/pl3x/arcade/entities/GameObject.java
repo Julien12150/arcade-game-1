@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
 
-import com.pl3x.arcade.main.Main;
+import com.pl3x.arcade.Main;
 
 public class GameObject {
 	
