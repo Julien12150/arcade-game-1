@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
 
 import com.pl3x.arcade.Main;
+import com.pl3x.arcade.Main.STATE;
 
 public class GameObject {
 	
@@ -18,6 +19,8 @@ public class GameObject {
 	private Color color;		// Color
 	private float halfSizeXFloat, halfSizeYFloat, sizeXFloat, sizeYFloat;
 	private int halfSizeXPixel, halfSizeYPixel;
+	
+	public static STATE State;
 	
 	// Constructor
 	public GameObject(float x, float y, float velX, float velY, float velMax, ID id, Color color, int sizeX, int sizeY)
@@ -36,49 +39,51 @@ public class GameObject {
 
 	// Tick: move object and collide
 	public void tick(long deltaNano) {
-		// Move object
-		this.x += this.velX * deltaNano / 1000000000;
-		this.y += this.velY * deltaNano / 1000000000;
-		
-		// Collision with borders
-		if (this.x - this.halfSizeXFloat <= 0)
-		{	
-			this.x = this.halfSizeXFloat;
-			this.velX = -this.velX;
-		}
-		else if (this.x + this.halfSizeXFloat >= 1)
-		{
-			this.x = 1 - this.halfSizeXFloat;
-			this.velX = -this.velX;
-		}
-		
-		// Move object Y
-		if (this.y - this.halfSizeYFloat <= 0)
-		{
-			this.y = this.halfSizeYFloat;
-			this.velY = -this.velY;
-		}
-		else if (this.y + this.halfSizeYFloat >= 1)
-		{
-			this.y = 1 - this.halfSizeYFloat;
-			this.velY = -this.velY;
-		}
-		
-		// Detect collisions
-		Rectangle2D.Float hitbox = this.getBounds();
-		ArrayList<GameObject> hits = new ArrayList<GameObject>();
-		
-		for(int i = 0; i < Main.handler.object.size(); i++)
-		{
-			GameObject tempObject = Main.handler.object.get(i);
-		
-			if ((tempObject != this) && (tempObject.getBounds().intersects(hitbox))) {
-				hits.add(tempObject);
+		if(State == Main.STATE.GAME){
+			// Move object
+			this.x += this.velX * deltaNano / 1000000000;
+			this.y += this.velY * deltaNano / 1000000000;
+			
+			// Collision with borders
+			if (this.x - this.halfSizeXFloat <= 0)
+			{	
+				this.x = this.halfSizeXFloat;
+				this.velX = -this.velX;
 			}
-		}
+			else if (this.x + this.halfSizeXFloat >= 1)
+			{
+				this.x = 1 - this.halfSizeXFloat;
+				this.velX = -this.velX;
+			}
+			
+			// Move object Y
+			if (this.y - this.halfSizeYFloat <= 0)
+			{
+				this.y = this.halfSizeYFloat;
+				this.velY = -this.velY;
+			}
+			else if (this.y + this.halfSizeYFloat >= 1)
+			{
+				this.y = 1 - this.halfSizeYFloat;
+				this.velY = -this.velY;
+			}
 		
-		if (hits.size() > 0)
-			this.collision(hits);
+			// Detect collisions
+			Rectangle2D.Float hitbox = this.getBounds();
+			ArrayList<GameObject> hits = new ArrayList<GameObject>();
+			
+			for(int i = 0; i < Main.handler.object.size(); i++)
+			{
+				GameObject tempObject = Main.handler.object.get(i);
+			
+				if ((tempObject != this) && (tempObject.getBounds().intersects(hitbox))) {
+					hits.add(tempObject);
+				}
+			}
+			
+			if (hits.size() > 0)
+				this.collision(hits);
+		}
 	}
 	
 	// Collision with GameObjects

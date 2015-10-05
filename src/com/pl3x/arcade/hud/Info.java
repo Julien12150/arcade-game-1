@@ -1,7 +1,8 @@
 package com.pl3x.arcade.hud;
 
 import java.awt.*;
-import com.pl3x.arcade.main.*;
+
+import com.pl3x.arcade.Main;
 
 public class Info {
 	public static int fps;
