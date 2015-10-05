@@ -23,13 +23,14 @@ public class KeyInput extends KeyAdapter{
 	public KeyInput(Handler handler, Main main){
 		this.handler = handler;
 		this.main = main;
+		this.State = STATE.MENU;
 	}
 	
 	public void keyPressed(KeyEvent e) {
 		
 		int key = e.getKeyCode();
 		
-		if(main.State == STATE.MENU){
+		if(State == STATE.MENU){
 			if(key == KeyEvent.VK_UP){
 				if(Main.menu.select <= 0) Main.menu.select = 2;
 				else Main.menu.select--;
@@ -41,19 +42,22 @@ public class KeyInput extends KeyAdapter{
 				try{	new Sound("menu_select"); }catch(Exception e1){}
 			}
 		}
-		
-		if (key == KeyEvent.VK_SPACE || key == KeyEvent.VK_ENTER && main.State == STATE.MENU){
-			if(Main.menu.select == 0){
-				Main.menu = null;
-				new LevelClassic(false);
-				return;
+		if (State == STATE.MENU){
+			if (key == KeyEvent.VK_SPACE || key == KeyEvent.VK_ENTER){
+				if(Main.menu.select == 0){
+					this.State = STATE.GAME;
+					GameObject.State = STATE.GAME;
+					main.State = STATE.GAME;
+					new LevelClassic(false);
+				}
+				else if(Main.menu.select == 1){
+					this.State = STATE.GAME;
+					GameObject.State = STATE.GAME;
+					main.State = STATE.GAME;
+					new LevelClassic(true);
+				}
+				else if(Main.menu.select == 2) System.exit(0);
 			}
-			else if(Main.menu.select == 1){
-				Main.menu = null;
-				new LevelClassic(true);
-				return;
-			}
-			else if(Main.menu.select == 2) System.exit(0);
 		}
 		
 		if (key == KeyEvent.VK_F3)

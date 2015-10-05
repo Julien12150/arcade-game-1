@@ -9,6 +9,7 @@ import java.util.Random;
 
 
 
+
 // import com.pl3x.arcade.entities.ID;
 import com.pl3x.arcade.entities.*;
 import com.pl3x.arcade.entities.list.*;
@@ -46,6 +47,7 @@ public class Main implements Runnable
 	
 	private Spawn spawner;
 	
+	@SuppressWarnings("static-access")
 	public Main()
 	{
 		Main.handler = new Handler();

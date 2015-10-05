@@ -93,10 +93,12 @@ public class GameObject {
 
 	// Display object
 	public void render(Graphics g) {
-		int x = (int) (this.x * Main.WIDTH);
-		int y = (int) (this.y * Main.HEIGHT);
-		g.setColor(this.getColor());
-		g.fillRect(x - this.halfSizeXPixel, y - this.halfSizeYPixel, this.sizeX, this.sizeY);
+		if(State == STATE.GAME){
+			int x = (int) (this.x * Main.WIDTH);
+			int y = (int) (this.y * Main.HEIGHT);
+			g.setColor(this.getColor());
+			g.fillRect(x - this.halfSizeXPixel, y - this.halfSizeYPixel, this.sizeX, this.sizeY);
+		}
 	}
 
 	// Return hitbox
