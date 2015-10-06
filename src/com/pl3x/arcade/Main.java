@@ -6,11 +6,15 @@ import java.util.Random;
 
 
 
+
+
+
+
 // import com.pl3x.arcade.entities.ID;
 import com.pl3x.arcade.entities.*;
 import com.pl3x.arcade.entities.list.*;
+import com.pl3x.arcade.gui.MainMenu;
 import com.pl3x.arcade.hud.*;
-import com.pl3x.arcade.level.LevelClassic;
 import com.pl3x.arcade.main.Handler;
 import com.pl3x.arcade.main.KeyInput;
 import com.pl3x.arcade.main.Sound;
@@ -35,6 +39,7 @@ public class Main implements Runnable
 	private static final int MIN_NANOSECONDS_BETWEEN_2_FRAMES  = 1000000000 / MAX_FPS;
 	
 	public static String name = "Arcade game"; //TODO: change the title
+	public static MainMenu menu;
 	
 	private Thread thread;
 	private boolean isRunning = false; //it's running? nah, very logic inside a program
@@ -44,7 +49,8 @@ public class Main implements Runnable
 	
 	private Spawn spawner;
 	
-	public Main(boolean twoPlayer)
+	@SuppressWarnings("static-access")
+	public Main()
 	{
 		Main.random = new Random();
 		Main.sound = new Sound();  
@@ -55,11 +61,11 @@ public class Main implements Runnable
 		Main.window = new Windows(WIDTH, Main.HEIGHT + Main.HUD_HEIGHT, name); //it's make a new Windows
 		Dimension r = Main.window.frame.getContentPane().getSize();	// Get real frame size (without borders)
 		Main.HEIGHT = r.height - Main.HUD_HEIGHT; // Update real height (without borders)
-		Main.window.addKeyListener(new KeyInput(Main.handler));  //it's will listen to keys NOTE: it's seem to not work in mac
+		Main.window.addKeyListener(new KeyInput(Main.handler, this));  //it's will listen to keys NOTE: it's seem to not work in mac
 		
 		this.spawner = new Spawn();
+		this.menu = new MainMenu();
 		
-		new LevelClassic(twoPlayer);
 		
 		this.start();
 	}
@@ -69,7 +75,15 @@ public class Main implements Runnable
 		thread.start();
 		isRunning = true; //when it's start, it's will run
 		System.out.println("Enjoy !");
+		GameObject.State = State;
 	}
+	
+	public enum STATE{
+		MENU,
+		GAME
+	}
+	
+	public STATE State = STATE.MENU;
 	
 	public synchronized void stop(){
 		try{
@@ -113,6 +127,8 @@ public class Main implements Runnable
 			long deltaNano = now - lastFrameTime;
 			Main.handler.tick(deltaNano);
 			this.spawner.tick(deltaNano);
+			
+			GameObject.State = State;
 			lastFrameTime = now;
 			
 			render();
@@ -132,11 +148,16 @@ public class Main implements Runnable
 		
 		g.setColor(Color.black);         //the background will be black
 		g.fillRect(0, 0, Main.WIDTH, Main.HEIGHT + Main.HUD_HEIGHT);//and it's do the size of the screen
-		
-		Main.handler.render(g);
-		Main.hud.render(g);
-
+		if(State == STATE.GAME){
+			Main.handler.render(g);
+			Main.hud.render(g);
+		}else if (State == STATE.MENU){
+			Main.menu.render(g);
+		}
 		g.dispose();
 		bs.show();
+	}
+	public static void main(String[] args){
+		new Main();
 	}
 }

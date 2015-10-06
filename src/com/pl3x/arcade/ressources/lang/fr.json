@@ -1,0 +1,7 @@
+{
+	"menu": {
+		"player1": "Solo",
+		"player2": "Multijoueur",
+		"quit": "Quitter"
+	}
+}
