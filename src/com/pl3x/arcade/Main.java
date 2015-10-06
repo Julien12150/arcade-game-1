@@ -4,12 +4,6 @@ import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.util.Random;
 
-
-
-
-
-
-
 // import com.pl3x.arcade.entities.ID;
 import com.pl3x.arcade.entities.*;
 import com.pl3x.arcade.entities.list.*;
@@ -17,8 +11,8 @@ import com.pl3x.arcade.gui.MainMenu;
 import com.pl3x.arcade.hud.*;
 import com.pl3x.arcade.main.Handler;
 import com.pl3x.arcade.main.KeyInput;
-import com.pl3x.arcade.main.Sound;
 import com.pl3x.arcade.main.Windows;
+import com.pl3x.arcade.sound.Sounds;
 
 public class Main implements Runnable
 {
@@ -28,7 +22,7 @@ public class Main implements Runnable
 	public static Random random;
 	public static Player player1;
 	public static Player player2;
-	public static Sound sound;
+	public static Sounds sounds;
 	
 	public static final int WIDTH = 750;  //the screen resolution
 	public static int HEIGHT = 500;
@@ -53,7 +47,7 @@ public class Main implements Runnable
 	public Main()
 	{
 		Main.random = new Random();
-		Main.sound = new Sound();  
+		Main.sounds = new Sounds();  
 		Main.handler = new Handler();
 		Main.hud = new HUD();
 		

@@ -7,6 +7,7 @@ import com.pl3x.arcade.Main;
 import com.pl3x.arcade.Main.STATE;
 import com.pl3x.arcade.entities.GameObject;
 import com.pl3x.arcade.level.LevelClassic;
+import com.pl3x.arcade.sound.SoundID;
 public class KeyInput extends KeyAdapter{
 	
 	private Handler handler;
@@ -34,12 +35,12 @@ public class KeyInput extends KeyAdapter{
 			if(key == KeyEvent.VK_UP){
 				if(Main.menu.select <= 0) Main.menu.select = 2;
 				else Main.menu.select--;
-				try{	new Sound("menu_select");	}catch(Exception e1){}
+				Main.sounds.play(SoundID.menu_select);
 			}
 			else if(key == KeyEvent.VK_DOWN){
 				if(Main.menu.select >= 2) Main.menu.select = 0;
 				else Main.menu.select++;
-				try{	new Sound("menu_select"); }catch(Exception e1){}
+				Main.sounds.play(SoundID.menu_select);
 			}
 		}
 		if (State == STATE.MENU){
