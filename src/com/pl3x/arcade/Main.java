@@ -13,6 +13,7 @@ import com.pl3x.arcade.hud.*;
 import com.pl3x.arcade.level.LevelClassic;
 import com.pl3x.arcade.main.Handler;
 import com.pl3x.arcade.main.KeyInput;
+import com.pl3x.arcade.main.Sound;
 import com.pl3x.arcade.main.Windows;
 
 public class Main implements Runnable
@@ -23,6 +24,7 @@ public class Main implements Runnable
 	public static Random random;
 	public static Player player1;
 	public static Player player2;
+	public static Sound sound;
 	
 	public static final int WIDTH = 750;  //the screen resolution
 	public static int HEIGHT = 500;
@@ -44,9 +46,10 @@ public class Main implements Runnable
 	
 	public Main(boolean twoPlayer)
 	{
+		Main.random = new Random();
+		Main.sound = new Sound();  
 		Main.handler = new Handler();
 		Main.hud = new HUD();
-		Main.random = new Random();
 		
 		// Main window
 		Main.window = new Windows(WIDTH, Main.HEIGHT + Main.HUD_HEIGHT, name); //it's make a new Windows

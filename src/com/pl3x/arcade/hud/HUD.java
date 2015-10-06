@@ -3,7 +3,6 @@ package com.pl3x.arcade.hud;
 import java.awt.*;
 
 import com.pl3x.arcade.Main;
-import com.pl3x.arcade.main.*;
 
 public class HUD {
 	private boolean isInfoShowed = false;

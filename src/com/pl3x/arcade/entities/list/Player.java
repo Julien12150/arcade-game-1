@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import com.pl3x.arcade.Main;
 import com.pl3x.arcade.entities.*;
-import com.pl3x.arcade.main.Sound;
+import com.pl3x.arcade.main.SoundID;
 
 public abstract class Player extends GameObject{
 
@@ -35,28 +35,19 @@ public abstract class Player extends GameObject{
 				this.setHealth(this.getHealth() - 3);
 				object.setVelX(-object.getVelX());
 				object.setVelY(-object.getVelY());
-				try {
-					new Sound("hit");
-				} catch (Exception e) {
-				}
+				Main.sound.play(SoundID.hit);
 				break;
 				
 			case Coin:
 				this.setHealth(this.getHealth() + 5);
 				this.setCoins(this.getCoins() + 1);
-				try {
-					new Sound("coin");
-				} catch (Exception e) {
-				}
+				Main.sound.play(SoundID.coin);
 				object.die();
 				break;
 				
 			case CoinNoHealth:
 				this.setCoins(this.getCoins() + 1);
-				try {
-					new Sound("coin");
-				} catch (Exception e) {
-				}
+				Main.sound.play(SoundID.coin);
 				object.die();
 				break;
 
