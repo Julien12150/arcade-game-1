@@ -68,7 +68,7 @@ public class Sound {
 			
 			this.sound = AudioSystem.getAudioInputStream(
 					new BufferedInputStream(
-							getClass().getResourceAsStream("/com/pl3x/arcade/ressources/wav/" + this.soundId.filename)
+							getClass().getResourceAsStream("/com/pl3x/arcade/ressources/wav/" + this.soundId.filename + ".wav")
 					)
 			);
 
